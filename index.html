@@ -18,7 +18,16 @@
     <div id="subList">
         <ul>
 
-
+            <li>tifu</li>
+            <li>videos</li>
+            <li>worldnews</li>
+            <li class="selected">Front Page</li>
+            <li>Art</li>
+            <li>BlackPeopleTwitter</li>
+            <li>Documentaries</li>
+            <li>DIY</li>
+            <li>EarthPorn</li>
+            <li>Futurology</li>
         </ul>
     </div>
     
@@ -271,6 +280,49 @@
 
 <script>
 
+    var frontPage = document.getElementsByClassName("selected")[0];
+    var page = "";
+    frontPage.addEventListener("click", function() {
+        frontPage.className = "selected full";
+        page = frontPage.innerHTML;
+        frontPage.innerHTML = "";
+
+        var list = document.getElementsByTagName("li");
+        for (i = 0; i<list.length; i++) {
+            if (list[i].className!="selected full") {
+                list[i].style.opacity = 0;
+
+            }
+        }
+
+        document.getElementById("subView").style.display = "block";
+        setTimeout(function() {
+            document.getElementById("postImage").className = "fullOpac";
+            document.getElementById("menu").className = "fullOpac";
+            document.getElementById("topComment").className = "fullOpac";
+        },800);
+
+
+    }, false);
+
+    var logo = document.getElementById("logo");
+    logo.addEventListener("click", function() {
+        frontPage.className = "selected";
+        frontPage.innerHTML = page;
+
+        var list = document.getElementsByTagName("li");
+        for (i = 0; i<list.length; i++) {
+            if (list[i].className!="selected full") {
+                list[i].style.opacity = 1;
+
+            }
+        }
+        document.getElementById("subView").style.display = "";
+        document.getElementById("postImage").className = "";
+        document.getElementById("menu").className = "";
+        document.getElementById("topComment").className = "";
+    }, false);
+
 
 
 
@@ -293,60 +345,10 @@
         subs[i] = subreddits.data.children[i];
         subs[i].elem = document.createElement('li');
         subs[i].elem.url = subs[i].data.url;
-        subs[i].elem.innerHTML = subs[i].data.display_name;
+        subs[i].elem.innerHTML = subs[i].data.title;
         document.getElementById("subList").getElementsByTagName("ul")[0].appendChild(subs[i].elem);
 
     }
-
-
-
-
-
-
-    var frontPage = document.getElementsByTagName("li");
-    var page = "";
-//    frontPage.addEventListener("click", function() {
-//        frontPage.className = "selected full";
-//        page = frontPage.innerHTML;
-//        frontPage.innerHTML = "";
-//
-//        var list = document.getElementsByTagName("li");
-//        for (i = 0; i<list.length; i++) {
-//            if (list[i].className!="selected full") {
-//                list[i].style.opacity = 0;
-//
-//            }
-//        }
-//
-//        document.getElementById("subView").style.display = "block";
-//        setTimeout(function() {
-//            document.getElementById("postImage").className = "fullOpac";
-//            document.getElementById("menu").className = "fullOpac";
-//            document.getElementById("topComment").className = "fullOpac";
-//        },800);
-//
-//
-//    }, false);
-
-    var logo = document.getElementById("logo");
-    logo.addEventListener("click", function() {
-        frontPage.className = "selected";
-        frontPage.innerHTML = page;
-
-        var list = document.getElementsByTagName("li");
-        for (i = 0; i<list.length; i++) {
-            if (list[i].className!="selected full") {
-                list[i].style.opacity = 1;
-
-            }
-        }
-        document.getElementById("subView").style.display = "";
-        document.getElementById("postImage").className = "";
-        document.getElementById("menu").className = "";
-        document.getElementById("topComment").className = "";
-    }, false);
-
-
 
 </script>
 
