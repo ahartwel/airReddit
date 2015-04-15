@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="//use.typekit.net/cmw4nao.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+</head>
+<body>
+
+<div id="container">
+
+    <div id="topBar">
+        <img id="logo" src="images/logo.png" alt=""/>
+
+    </div>
+
+    <div id="subList">
+        <ul>
+
+
+        </ul>
+    </div>
+    
+    <div id="subView">
+        <div id="post">
+            <img id="postImage" src="http://i.imgur.com/GZMqFyR.gif" alt=""/>
+            <div id="postTitle">A Fluid Simulation I Rendered</div>
+            <div id="author">moby3</div>
+            <img id="menu" src="images/menu-21.png" alt=""/>
+            <div id="topComment"><span class="name">mere_iguana</span>Californian here; Please render more water</div>
+            <div id="postComments">
+                <div class="subComments"><span class="name">Smirk27</span><span class="comment">OP PLS</span> <img class="commentView" src="http://i1.ytimg.com/vi/JMtqv82XEk4/maxresdefault.jpg" alt=""/></div>
+                <div class="subComments"><span class="name">Smirk27</span><span class="comment">deeper</span> <img class="commentView" src="http://i.ytimg.com/vi/HA1mbZ_MMh8/hqdefault.jpg"
+                                                                                      alt=""/></div>
+
+
+        </div>
+
+        </div>
+
+        <div id="upNext">
+            <div id="next">next:</div>
+            <div id="nextTitle">Jury Finds Dzhokhar Tsarnaev Guilty In Bombing Of Boston Marathon</div>
+            <div id="nextAuthor">Matuas</div>
+        </div>
+
+</div>
+
+
+<style>
+
+    div#container {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background: url(http://i.imgur.com/a90P4oL.jpg);
+        background-size: cover;
+    }
+
+    div#topBar {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 24%;
+        background-color: rgba(0,0,0,.3);
+        background: linear-gradient(to bottom, rgb(0,0,0) , rgba(0,0,0,0)); /* Standard syntax (must be last) */;
+        z-index:10;
+    }
+
+    img#logo {
+        position: absolute;
+        top: 35px;
+        left: 40px;
+    }
+
+
+    div#subList {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        color: white;
+        font-family: "fira-sans";
+        font-weight: 100;
+        line-height: 120px;
+    }
+
+    #subList li {
+        font-size: 50px;
+        transition: all 1.2s;
+    }
+
+    ul {
+        list-style: none;
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .selected {
+        width: 100%;
+        height: 10vh;
+        padding-top: 60px;
+        padding-bottom: 60px;
+        border-bottom: white solid 10px;
+        border-top: white solid 10px;
+        background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.6) , rgba(0,0,0,0));
+        transition: all 1.75s;
+    }
+
+
+    .full {
+
+
+        height: 73.5vh;
+        width: 100vw;
+        transform: translate3d(-485px,-215px,0px);
+        background-color: rgba(0,0,0,.5);
+
+    }
+
+
+
+    div#subView {
+        position: fixed;
+        top: 14.15%;
+        width: 100%;
+        height: 85.85%;
+        display: none;
+        z-index: 4;
+    }
+
+    div#post {
+        position: relative;
+        width: 90%;
+        margin: 0 auto;
+        height: 89%;
+        margin-top: 2%;
+    }
+
+    img#postImage {
+        width: 55%;
+        opacity: 0;
+        transition: all 1s;
+        margin-top: 2%;
+    }
+
+    img#menu {
+        position: absolute;
+        left: 60%;
+        width: 28%;
+        opacity: 0;
+        transition: all 2s;
+        -webkit-transform: translateZ(0);
+        top: 4%;
+    }
+
+    div#topComment {
+        font-family: "fira-sans";
+        color: white;
+        font-size: 23px;
+        width: 40%;
+        position: absolute;
+        top: 26%;
+        left: 60%;
+        opacity: 0;
+        transition: all 3s;
+        -webkit-transform: translateZ(0);
+    }
+
+    span.name {
+        display: inherit;
+        margin-bottom: 7px;
+    }
+
+    .fullOpac {
+        opacity: 1!important;
+    }
+
+    div#postComments {
+        position: absolute;
+        width: 43%;
+        overflow: hidden;
+        top: 41%;
+        left: 60%;
+        color: white;
+        float: left;
+        font-family: "fira-sans";
+        font-weight: 100;
+        font-size: 26px;
+    }
+
+    .subComments {
+        width: 50%;
+        float: left;
+    }
+
+    img.commentView {
+        height: 15vh;
+        position: relative;
+        margin-top: 15px;
+    }
+    .subComments span.name {
+        width: 44%;
+    }
+
+    span.comment {
+        display: inherit;
+        margin-top: 5px;
+    }
+
+    div#postTitle {
+        position: absolute;
+        color: white;
+        font-family: "fira-sans";
+        font-weight: 100;
+        font-size: 58px;
+        top: 83%;
+        left: 0%;
+    }
+
+    div#author {
+        position: absolute;
+        color: white;
+        font-family: "fira-sans";
+        font-weight: 200;
+        font-size: 37px;
+        top: 91.5%;
+    }
+    div#upNext {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        height: 20%;
+        width: 40%;
+        background: linear-gradient(to left, rgba(0,0,0,.8) , rgba(0,0,0,0));
+        color: white;
+        font-family: "fira-sans";
+    }
+
+    div#next {
+        position: absolute;
+        left: 45%;
+        bottom: 25px;
+        font-size: 30px;
+    }
+
+    div#nextTitle {
+        position: absolute;
+        bottom: 26px;
+        width: 30%;
+        font-weight: 100;
+        left: 57%;
+        font-size: 25px;
+    }
+
+    div#nextAuthor {
+        position: absolute;
+        bottom: 30px;
+        right: 152px;
+        font-weight: 100;
+    }
+
+</style>
+
+
+<script>
+
+
+
+
+    function httpGet(theUrl)
+    {
+        var xmlHttp = null;
+
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "/redditCall.php?url=" + encodeURI(theUrl), false );
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+
+
+
+
+    var subreddits = JSON.parse(httpGet("reddit.com/subreddits/popular.json"));
+    var subs = [];
+    for (var i = 0; i<subreddits.data.children.length; i++) {
+        subs[i] = subreddits.data.children[i];
+        subs[i].elem = document.createElement('li');
+        subs[i].elem.url = subs[i].data.url;
+        subs[i].elem.innerHTML = subs[i].data.display_name;
+        document.getElementById("subList").getElementsByTagName("ul")[0].appendChild(subs[i].elem);
+
+    }
+
+
+
+
+
+
+    var frontPage = document.getElementsByTagName("li");
+    var page = "";
+//    frontPage.addEventListener("click", function() {
+//        frontPage.className = "selected full";
+//        page = frontPage.innerHTML;
+//        frontPage.innerHTML = "";
+//
+//        var list = document.getElementsByTagName("li");
+//        for (i = 0; i<list.length; i++) {
+//            if (list[i].className!="selected full") {
+//                list[i].style.opacity = 0;
+//
+//            }
+//        }
+//
+//        document.getElementById("subView").style.display = "block";
+//        setTimeout(function() {
+//            document.getElementById("postImage").className = "fullOpac";
+//            document.getElementById("menu").className = "fullOpac";
+//            document.getElementById("topComment").className = "fullOpac";
+//        },800);
+//
+//
+//    }, false);
+
+    var logo = document.getElementById("logo");
+    logo.addEventListener("click", function() {
+        frontPage.className = "selected";
+        frontPage.innerHTML = page;
+
+        var list = document.getElementsByTagName("li");
+        for (i = 0; i<list.length; i++) {
+            if (list[i].className!="selected full") {
+                list[i].style.opacity = 1;
+
+            }
+        }
+        document.getElementById("subView").style.display = "";
+        document.getElementById("postImage").className = "";
+        document.getElementById("menu").className = "";
+        document.getElementById("topComment").className = "";
+    }, false);
+
+
+
+</script>
+
+</body>
+</html>
