@@ -5,6 +5,7 @@
     <title></title>
     <script src="//use.typekit.net/cmw4nao.js"></script>
     <script>try{Typekit.load();}catch(e){}</script>
+    <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
 </head>
 <body>
 
@@ -80,7 +81,7 @@
 
     div#subList {
         position: absolute;
-        top: 0px;
+        top: 350px;
         left: 0px;
         width: 100%;
         height: 100%;
@@ -89,11 +90,12 @@
         font-family: "fira-sans";
         font-weight: 100;
         line-height: 120px;
+        transition: all .3s;
     }
 
     #subList li {
         font-size: 50px;
-        transition: all 1.2s;
+
     }
 
     ul {
@@ -110,7 +112,7 @@
         border-bottom: white solid 10px;
         border-top: white solid 10px;
         background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.6) , rgba(0,0,0,0));
-        transition: all 1.75s;
+
     }
 
 
@@ -294,13 +296,51 @@
         subs[i].elem = document.createElement('li');
         subs[i].elem.url = subs[i].data.url;
         subs[i].elem.innerHTML = subs[i].data.display_name;
+
+        if (i==0) {
+            subs[i].elem.className = "selected";
+        }
+
         document.getElementById("subList").getElementsByTagName("ul")[0].appendChild(subs[i].elem);
 
     }
 
 
+    var selectedSub = 0;
+
+    function changeSub(offset) {
+        selectedSub+=offset;
+        if (selectedSub<0) {
+            selectedSub = 0;
+        }
+
+        if (selectedSub>subs.length-1) {
+            selectedSub = subs.length-1;
+        }
+
+        for (i = 0; i<subs.length; i++) {
+
+            subs[i].elem.className = "";
+
+            if (i==selectedSub) {
+                subs[i].elem.className = "selected";
+            }
+
+        }
 
 
+
+        document.getElementById("subList").style.transform = "translate3d(0px," + (selectedSub*-120) + "px,0px)";
+
+    }
+
+
+    var subData = {};
+    function selectSub() {
+        subData = JSON.parse(httpGet("reddit.com" + subs[selectedSub].data.url + ".json")).data.children;
+
+
+    }
 
 
     var frontPage = document.getElementsByTagName("li");
@@ -345,6 +385,165 @@
         document.getElementById("menu").className = "";
         document.getElementById("topComment").className = "";
     }, false);
+
+
+
+    var handData = [];
+    var grabData = [];
+    var startPointing = false;
+    var startGrabbing = false;
+    var justSwiped = false;
+    var timer = 0;
+
+    var lastSpeed = 0;
+    Leap.loop({enableGestures: true}, function(frame) {
+
+        if (frame.hands.length > 0) {
+            var hand = frame.hands[0];
+            console.log(hand.direction);
+            console.log(hand.palmVelocity[1]);
+           console.log(hand.confidence);
+
+                //addGrabData(hand.grabStrength);
+
+            if (Math.abs(lastSpeed) - Math.abs(hand.palmVelocity[1]) > 15 && justSwiped==false) {
+                console.log("MMMAAAYYYBBBEEE")
+                if (hand.direction[1]<.18) {
+                    changeSub(-1);
+                } else {
+                    changeSub(1);
+                }
+                justSwiped = true;
+            } else {
+                timer++;
+                if (timer>45) {
+                    justSwiped = false;
+                    timer=0;
+                }
+
+            }
+
+            lastSpeed = hand.palmVelocity[1];
+            console.log("-----------")
+
+
+//            addFingerAngle(hand.palmPosition[0]);
+//            addGrabData(hand.pinchStrength);
+
+
+
+        } else {
+            startPointing = true;
+
+        }
+
+    });
+
+
+    function addFingerAngle(angle) {
+        if (startPointing) {
+            handData = [];
+            startPointing = false;
+        }
+
+        if (handData.length<10) {
+            handData.push(angle);
+        } else {
+          handData = handData.slice(1,handData.length);
+
+            handData[handData.length] = angle;
+           // console.log(checkSwipe());
+
+            if (checkSwipe()) {
+
+                if (handData[0] - handData[handData.length-1]<0) {
+                    changeSub(1);
+                    console.log("shiiit");
+                } else {
+                    changeSub(-1);
+                }
+
+
+
+            } else {
+                if (justSwiped) {
+                    timer++;
+                    if (timer>65) {
+                      //  alert("!!!!");
+                        justSwiped = false;
+                        timer = 0;
+                    }
+                }
+            }
+
+
+
+        }
+
+
+        //console.log(handData);
+    }
+
+    function addGrabData(strength) {
+        if (startGrabbing) {
+            grabData = [];
+            startGrabbing = false;
+        }
+
+        if (grabData.length<10) {
+            grabData.push(strength);
+        } else {
+          grabData = grabData.slice(1,grabData.length);
+
+            grabData[grabData.length] = strength;
+           // console.log(checkSwipe());
+
+            if (checkGrab()) {
+
+                if (grabData[0] - grabData[grabData.length-1]<0) {
+                    alert("OOOUUUTTT")
+                    console.log("shiiit");
+
+                } else {
+                   console.log("zooooom out")
+                    alert("IIIINNNN")
+                }
+
+
+
+            }
+
+
+
+        }
+
+
+        //console.log(handData);
+    }
+
+
+    function checkSwipe() {
+        console.log(justSwiped);
+        if (Math.abs(handData[0] - handData[handData.length-1])>7 && justSwiped==false) {
+           justSwiped = true;
+            return true;
+
+        }
+
+        return false;
+
+    }
+    function checkGrab() {
+        console.log(justSwiped);
+        if (Math.abs(grabData[0] - grabData[grabData.length-1])>.57 && justSwiped==false) {
+           justSwiped = true;
+            return true;
+
+        }
+
+        return false;
+
+    }
 
 
 
