@@ -8,6 +8,20 @@ var currentThread = 1;
 
 var level = 0;
 
+
+
+function getArticle(theUrl) {
+
+
+        var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "getArticle.php?url=" + theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+
+        }
+
 function httpGet(theUrl)
 {
     var xmlHttp = null;
@@ -103,13 +117,58 @@ function moveSub(whichWay) {
 
 }
 
+function yt(url){
+    return '<iframe width="100%" height="100%" src="'+url+"?autoplay=1" +
+        '" frameborder="0" allowfullscreen></iframe>'
+}
 
+function getYouTubeVideoIDfromURL(url) {
+    console.log(url + " jjjj");
+    var matching = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+    if (!matching) {
+        return '';
+    } else {
+        if (matching[2].length === 11) {
+            return matching[2];
+        } else {
+            return "";
+        }
+    }
+
+    return "";
+};
 
 function displayComments(commentsSection) {
 
 
 }
+var checkImageLink = function(url) {
 
+    if (url.indexOf("i.imgur")>0) {
+        return url;
+    }
+
+    var matching = url.match(/\.(svg|jpe?g|png|gifv?)(?:[?#].*)?$|(?:imgur\.com|livememe\.com)\/([^?#\/.]*)(?:[?#].*)?(?:\/)?$/);
+    if (!matching) {
+        return '';
+    }
+    if (matching[1]) { // normal image link
+        if (url.indexOf('.gifv') > 0) {
+            url = url.replace('.gifv', '.gif');
+        }
+        return url;
+    } else if (matching[2]) { // imgur or livememe link
+        if (matching[0].slice(0, 5) === "imgur") {
+            return 'http://imgur.com/' + matching[2] + '.jpg';
+        } else if (matching[0].indexOf("livememe.") >= 0) {
+            return 'http://i.lvme.me/' + matching[2] + '.jpg';
+        } else {
+            return null;
+        }
+    } else {
+        return null;
+    }
+};
 
 function displayThread() {
 
@@ -119,12 +178,18 @@ function displayThread() {
         view.innerHTML = "";
 
         var title = createElement("h2", "fadeIt");  //title
-        title.innerHTML = threads[currentThread].data.title;
+        var t = threads[currentThread].data.title;
+        if (t.length>105) {
+          t = threads[currentThread].data.title.substring(0,105) + "...";
+        }
+        title.innerHTML = t;
+        title.id = "theTitle";
 
         var author = createElement("h3", "fadeIt");   //author
         author.innerHTML = threads[currentThread].data.author;
+        author.id = "author";
 
-        var image = createElement("img", "threadImg fadeIt");  //post image
+        var image = createElement("img", "threadImg fadeIt img");  //post image
 
 
         var count = 0;
@@ -133,15 +198,50 @@ function displayThread() {
             count += threads[currentThread].data.url.indexOf(".png");
             count += threads[currentThread].data.url.indexOf(".gif");
 
-        imageUrl = threads[currentThread].data.url;
-        if (count<0) {
-            var imageData = getImgurImage(threads[currentThread].data.url.split("/")[3]);   //getting image link if not a file
-            imageUrl = JSON.parse(imageData).data.link;
+        var imgurGroup = false;
 
+        imageUrl = checkImageLink(threads[currentThread].data.url);
+    console.log(checkImageLink(threads[currentThread].data.url) + "   imageURL");
+        if (count<0 && imageUrl=="" && threads[currentThread].data.url.indexOf("imgur")>0) {
+
+            var imgId = threads[currentThread].data.url.split("/")[3];
+            if (imgId == "a") {
+                imgId = threads[currentThread].data.url.split("/")[4]
+            }
+
+            var imageData = JSON.parse(getImgurImage(imgId));   //getting image link if not a file
+            console.log(imageData);
+
+            if (imageData.data.link==threads[currentThread].data.url) {
+                imgurGroup = true;
+                image = createElement("div", "threadImg fadeIt img" );
+                for (var p = 0; p<imageData.data.images.length; p++) {
+                    var im = createElement("img", "imgurimg");
+                    im.src = imageData.data.images[p].link;
+                    image.appendChild(im);
+                }
+            } else {
+            imageUrl = JSON.parse(imageData).data.link;
+            }
+        }
+    var video = getYouTubeVideoIDfromURL(threads[currentThread].data.url);
+    console.log(video);
+    console.log("shitsticks");
+    if (video=="") {
+        video = false;
+        console.log("falsess");
+    } else {
+       video = true;
+        console.log(threads[currentThread].data.url.indexOf("youtu"));
+        if (threads[currentThread].data.url.indexOf("youtu")<0) {
+            video = false;
         }
 
-        image.src = imageUrl;
+    }
 
+        if (video==false && imgurGroup==false) {
+        image.src = imageUrl;
+        image.id = "mainImage";
         image.onload = function() {
 
             var w = this.clientWidth;
@@ -156,13 +256,45 @@ function displayThread() {
 
             }
 
+
+
+        }
         }
 
+    if (video) {
+        console.log("?????");
+        image = createElement("div", "threadImg fadeIt");
+        image.innerHTML = yt(threads[currentThread].data.url.replace("watch?v=", "embed/").replace("youtu.be", "youtube.com/embed"));
+
+    }
+if (image.hasAttribute("src")) {
+    console.log(image.getAttribute("src").length + "wooh yeah");
+    var gotText = false;
+    if (video == false && image.getAttribute("src").length <= 0) {
+        image = createElement("div", "threadImg fadeIt");
+
+        image.innerHTML = threads[currentThread].data.selftext;
+
+    }
+
+
+    if ((threads[currentThread].data.selftext=="") && (image.className == "threadImg fadeIt")) {
+        var article = JSON.parse(getArticle(threads[currentThread].data.url));
+        console.log(article);
+        image = createElement("div", "threadImg fadeIt");
+        if (article.content == undefined) {
+            article.content = "Error Getting Article."
+        }
+        image.innerHTML = article.content;
+    }
+
+}
         var container = createElement("div", "threadContainer fadeIt");   //thread Container
 
 
         var imageDiv = createElement("div", "imgContainer");   //img container
         var commentsDiv = createElement("div", "commentsContainer")  //comments container
+        commentsDiv.id = "commentContainer";
 
         var menu = createElement("div", "threadMenu");  //menu with up vote/ down vote/ comment count
 
@@ -204,7 +336,13 @@ function displayThread() {
 
 
             var upTitle = createElement("h4", "upNextTitle");
-            upTitle.innerHTML = threads[currentThread+1].data.title;
+
+            t = threads[currentThread+1].data.title;
+            if (t.length>60) {
+                t = threads[currentThread].data.title.substring(0,60) + "...";
+            }
+
+            upTitle.innerHTML = t;
 
             var upAuthor = createElement("h5", "upNextTitle");
             upAuthor.innerHTML = threads[currentThread+1].data.author;
@@ -237,6 +375,15 @@ function displayThread() {
 
 
         view.appendChild(container);
+
+
+        if (document.getElementById("theTitle").clientHeight> (100/720) * window.innerHeight) {
+
+            console.log("big Image");
+            document.getElementById("theTitle").setAttribute("bigTitle", true);
+        } else {
+            document.getElementById("theTitle").setAttribute("bigTitle", false);
+        }
 
         return commentsDiv;
 
@@ -271,12 +418,68 @@ function loadThreads() {
 
 
 
+function viewAllComments() {
+    level = 2;
+    document.getElementById("subList").className = "showComments";
+
+    document.getElementById("author").style.left = "0px";
+
+    var commCon = document.getElementById("commentContainer");
+
+    for (var i = 0; i<threadComments.length-1; i++) {
+        var newCom = createElement("div", "singleComment");
+        var auth = createElement("div", "singleAuthor");
+        var text = createElement("div", "commentContent");
+        auth.innerHTML = threadComments[i].data.author;
+        text.innerHTML = threadComments[i].data.body;
+        newCom.appendChild(auth);
+        newCom.appendChild(text);
+
+        console.log(threadComments[i].data.replies.data);
+        if (threadComments[i].data.replies.data!=undefined) {
+            for (var p = 0; p < threadComments[i].data.replies.data.children.length; p++) {
+                console.log(p);
+                var subCom = createElement("div", "singleComment");
+                auth = createElement("div", "singleAuthor");
+                text = createElement("div", "commentContent");
+                auth.innerHTML = threadComments[i].data.replies.data.children[p].data.author;
+                text.innerHTML = threadComments[i].data.replies.data.children[p].data.body;
+                subCom.appendChild(auth);
+                subCom.appendChild(text);
+                newCom.appendChild(subCom);
+
+            }
+
+        }
+
+        commCon.appendChild(newCom);
+
+    }
+
+
+}
+
+
+function leaveComments() {
+    level = 1;
+    document.getElementById("subList").className = "";
+    var allComs = document.getElementsByClassName("singleComment");
+    for (var i = allComs.length-1; i>=0; i--) {
+        allComs[i].parentNode.removeChild(allComs[i]);
+
+    }
+
+}
+
+
+
+
 function loadComments(commentsSection) {
     var coms = JSON.parse(httpGet("reddit.com/comments/" + threads[currentThread].data.id + ".json"))[1].data.children;
     //window.comments = JSON.parse(httpGet("reddit.com/comments/" + threads[0].data.id + ".json"))[1].children;
 
     var comments = [];
-
+    threadComments = coms;
     var numOfTops = 3;
     if (coms.length < 3) {
         numOfTops = coms.length;
@@ -363,11 +566,15 @@ document.body.addEventListener("keyup", function(e) {
     } else if (e.keyCode==13) {
         if (level==0) {
             enterSub();
+        } else if (level==1) {
+            viewAllComments();
         }
 
     } else if (e.keyCode==37) {
         if (level==1) {
             leaveSub();
+        } else if (level==2) {
+            leaveComments();
         }
 
     }
@@ -390,30 +597,35 @@ Leap.loop({enableGestures: true}, function(frame) {
     if (frame.hands.length > 0) {
         var hand = frame.hands[0];
 
+        //console.log(hand.grabStrength);
+        addGrabData(hand.pinchStrength);
+        //console.log("justSwiped " + justSwiped + "  timer: " + timer + "   level: " + level);
+        if (justSwiped==false) {
 
-        addGrabData(hand.grabStrength);
-
-        if (Math.abs(lastSpeed) - Math.abs(hand.palmVelocity[1]) > 15 && justSwiped==false) {
-            console.log("MMMAAAYYYBBBEEE")
-            if (hand.direction[1]<.18) {
-                if (level==0) {
-                    changeSub(-1);
-                }else if (level==1) {
-                    console.log("shit");
-                    moveSub(-1);
-                    }
-            } else {
+          //  console.log(hand.direction[1]);
+            if (hand.direction[1]>.28) {
+                justSwiped = true;
+                console.log("MMMAAAYYYBBBEEE");
                 if (level==0) {
                     changeSub(1);
-                } else if (level==1) {
+                }else if (level==1) {
+                    console.log("shit");
                     moveSub(1);
+                    }
+            } else if (hand.direction[1]<-.18) {
+                justSwiped = true;
+                if (level==0) {
+                    changeSub(-1);
+                } else if (level==1) {
+                    moveSub(-1);
                     console.log("shit");
                 }
             }
-            justSwiped = true;
+
+            timer=0;
         } else {
             timer++;
-            if (timer>45) {
+            if (timer>40) {
                 justSwiped = false;
                 timer=0;
             }
@@ -499,14 +711,15 @@ function addGrabData(strength) {
     if (justGrabbed) {
         grabbedTimer++;
 
-        if (grabbedTimer>50) {
+        if (grabbedTimer>100) {
             grabbedTimer=0;
             justGrabbed = false;
         }
 
     }
 
-    if (grabData.length<10) {
+
+    if (grabData.length<20) {
         grabData.push(strength);
     } else {
         grabData = grabData.slice(1,grabData.length);
@@ -514,24 +727,30 @@ function addGrabData(strength) {
         grabData[grabData.length] = strength;
         // console.log(checkSwipe());
 
-        if (checkGrab() && justGrabbed==false) {
+        if (justGrabbed==false) {
 
-            if (grabData[0] - grabData[grabData.length-1]<0) {
+            if (grabData[0] - grabData[grabData.length-1]<.13 && checkGrab(.37)) {
                 //alert("OOOUUUTTT")
                 console.log("zooooom out")
                 if (level==1) {
                     console.log("levaing");
                     leaveSub();
+                } if (level==2) {
+                    leaveComments();
                 }
                 justGrabbed = true;
-
-            } else {
+                grabbedTimer=0;
+            } else if (checkGrab(.15)) {
                 console.log("zooooom in")
                 if (level==0) {
-                    console.log("entering");
+                  //  console.log("entering");
                     enterSub();
+                } else if (level==1) {
+                   // console.log("entering when I shouldn't");
+                   viewAllComments();
                 }
                 justGrabbed = true;
+                grabbedTimer=0;
             }
 
 
@@ -560,9 +779,9 @@ function checkSwipe() {
     return false;
 
 }
-function checkGrab() {
+function checkGrab(amount) {
 
-    if (Math.abs(grabData[0] - grabData[grabData.length-1])>.37 && justSwiped==false) {
+    if (Math.abs(grabData[0] - grabData[grabData.length-1])>amount && justSwiped==false) {
         justSwiped = true;
         return true;
 

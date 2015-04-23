@@ -21,14 +21,15 @@ div#topBar {
 
 img#logo {
     position: absolute;
-    top: 35px;
-    left: 40px;
+    top: 15%;
+    left: 4%;
+    width: 12%;
 }
 
 
 div#subList {
     position: absolute;
-    top: 350px;
+    top: 33%;
     left: 0px;
     width: 100%;
     height: 100%;
@@ -55,7 +56,7 @@ ul {
     width: 100%;
     height: 10vh;
     padding-top: 60px;
-    padding-bottom: 60px;
+    padding-bottom: 80px;
     border-bottom: white solid 10px;
     border-top: white solid 10px;
     background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.6) , rgba(0,0,0,0));
@@ -218,17 +219,17 @@ div#nextAuthor {
 
 
 .inIt {
-    height: 74vh;
+    height: 65vh;
     width: 100vw;
-    transform: translate3d(-26%,-22%,0px);
+    transform: translate3d(-26.5%,-23%,0px);
     background: linear-gradient(to right, rgba(0,0,0,.9), rgba(0,0,0,.9) , rgba(0,0,0,0.9));
     color: rgba(0,0,0,0);
 }
 
 h2 {
     color: white;
-    font-size: 40px;
-    width: 40%;
+    font-size: 2.4vw;
+    width: 70%;
     line-height: 132%;
     text-align: left;
 
@@ -247,7 +248,7 @@ h2 {
 }
 
 img.threadImg {
-    height: 100%;
+    width: 100%;
     float: left;
 }
 
@@ -257,8 +258,8 @@ img.threadImg {
 }
 
 .vote {
-    width: 130px;
-    height: 120px;
+    width: 17%;
+    height: 9vw;
     overflow: hidden;
     position: relative;
     float: left;
@@ -278,9 +279,11 @@ img.threadImg {
 
 .imgContainer {
     float: left;
-    height: 70%;
+    height: 74%;
     margin-left: 4%;
     width: 44%;
+    overflow: scroll;
+    margin-right: 2%;
 }
 
 .commentsContainer {
@@ -299,7 +302,7 @@ img.threadImg {
 h3.fadeIt {
     float: left;
     color: white;
-    font-size: 27px;
+    font-size: 1.5vw;
     margin-left: 4%;
     margin-top: -61px;
     font-weight: 200;
@@ -307,7 +310,7 @@ h3.fadeIt {
 
 .threadMenu {
     width: 100%;
-    height: 152px;
+    height: 32%;
     overflow: hidden;
     margin-right: 25px;
 }
@@ -320,7 +323,7 @@ h3.fadeIt {
 .count {
     color: white;
     display: inline-block;
-    font-size: 23px;
+    font-size: 1.7vw;
     width: 100%;
     transform: translateY(-90px);
 }
@@ -330,25 +333,27 @@ h3.fadeIt {
     bottom: 0px;
     right: 0px;
     color: white;
+    width: 40%;
+    height: 30%;
 }
 
 h5.upNextTitle {
-    font-size: 24px;
+    font-size: 1.35vw;
     font-weight: 200;
-    margin: 0px;
     height: 14px;
-    margin-top: -62px;
-    margin-right: 4vw;
-    text-align: right;
+    position: absolute;
+    bottom: 6.5vh;
+    right: 4vw;
 }
 
 h4.upNextTitle {
-    font-size: 34px;
-    width: 470px;
+    font-size: 1.7vw;
+    width: 42%;
     line-height: 100%;
     text-align: left;
-    margin-top: -180px;
-    margin-right: 3vw;
+    position: absolute;
+    right: 4vw;
+    bottom: 12%;
 }
 
 .topComContainer {
@@ -357,13 +362,13 @@ h4.upNextTitle {
     height: auto;
     color: white;
     margin-right: 4%;
-    max-height: 40%;
+    max-height: 39%;
     overflow: hidden;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .commentAuthor {
-    font-size: 27px;
+    font-size: 1.7vw;
     display: block;
     margin: 0px;
     padding: 0px;
@@ -373,8 +378,555 @@ h4.upNextTitle {
 
 .commentTitle {
     clear: both;
-    font-size: 28px;
+    font-size: 1.6vw;
     text-align: left;
     line-height: 108%;
     font-weight: 400;
+}
+
+.titleContainer h2.fadeIt {
+    position: absolute;
+    bottom: 6%;
+}
+
+.titleContainer h3.fadeIt {
+    position: absolute;
+    bottom: -7%;
+}
+
+.downVote.voteImg {
+    -webkit-transform: scale(1,-1);
+    -webkit-transform-origin: center;
+}
+
+.downVote .count {
+}
+
+.threadImg.fadeIt {
+    width: 100%;
+    height: 100%;
+}
+
+div#container {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: url(http://i.imgur.com/a90P4oL.jpg);
+    background-size: cover;
+}
+
+div#topBar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 24%;
+    background-color: rgba(0,0,0,.3);
+    background: linear-gradient(to bottom, rgb(0,0,0) , rgba(0,0,0,0)); /* Standard syntax (must be last) */;
+    z-index:10;
+}
+
+img#logo {
+    position: absolute;
+    top: 15%;
+    left: 4%;
+    width: 12%;
+}
+
+
+div#subList {
+    position: absolute;
+    top: 33%;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: white;
+    font-family: "fira-sans";
+    font-weight: 100;
+    line-height: 120px;
+    transition: all .3s;
+}
+
+#subList li {
+    font-size: 50px;
+
+}
+
+ul {
+    list-style: none;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.selected {
+    width: 100%;
+    height: 10vh;
+    padding-top: 60px;
+    padding-bottom: 80px;
+    border-bottom: white solid 10px;
+    border-top: white solid 10px;
+    background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.6) , rgba(0,0,0,0));
+    transition: all .8s;
+}
+
+
+.full {
+
+
+    height: 73.5vh;
+    width: 100vw;
+    transform: translate3d(-485px,-215px,0px);
+    background-color: rgba(0,0,0,.5);
+
+}
+
+
+
+div#subView {
+    position: fixed;
+    top: 14.15%;
+    width: 100%;
+    height: 85.85%;
+    display: none;
+    z-index: 4;
+}
+
+div#post {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    height: 89%;
+    margin-top: 2%;
+}
+
+img#postImage {
+    width: 55%;
+    opacity: 0;
+    transition: all 1s;
+    margin-top: 2%;
+}
+
+img#menu {
+    position: absolute;
+    left: 60%;
+    width: 28%;
+    opacity: 0;
+    transition: all 2s;
+    -webkit-transform: translateZ(0);
+    top: 4%;
+}
+
+div#topComment {
+    font-family: "fira-sans";
+    color: white;
+    font-size: 23px;
+    width: 40%;
+    position: absolute;
+    top: 26%;
+    left: 60%;
+    opacity: 0;
+    transition: all 3s;
+    -webkit-transform: translateZ(0);
+}
+
+span.name {
+    display: inherit;
+    margin-bottom: 7px;
+}
+
+.fullOpac {
+    opacity: 1!important;
+}
+
+div#postComments {
+    position: absolute;
+    width: 43%;
+    overflow: hidden;
+    top: 41%;
+    left: 60%;
+    color: white;
+    float: left;
+    font-family: "fira-sans";
+    font-weight: 100;
+    font-size: 26px;
+}
+
+.subComments {
+    width: 50%;
+    float: left;
+}
+
+img.commentView {
+    height: 15vh;
+    position: relative;
+    margin-top: 15px;
+}
+.subComments span.name {
+    width: 44%;
+}
+
+span.comment {
+    display: inherit;
+    margin-top: 5px;
+}
+
+div#postTitle {
+    position: absolute;
+    color: white;
+    font-family: "fira-sans";
+    font-weight: 100;
+    font-size: 58px;
+    top: 83%;
+    left: 0%;
+}
+
+div#author {
+    position: absolute;
+    color: white;
+    font-family: "fira-sans";
+    font-weight: 200;
+    font-size: 37px;
+    top: 91.5%;
+}
+div#upNext {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    height: 20%;
+    width: 40%;
+    background: linear-gradient(to left, rgba(0,0,0,.8) , rgba(0,0,0,0));
+    color: white;
+    font-family: "fira-sans";
+}
+
+div#next {
+    position: absolute;
+    left: 45%;
+    bottom: 25px;
+    font-size: 30px;
+}
+
+div#nextTitle {
+    position: absolute;
+    bottom: 26px;
+    width: 30%;
+    font-weight: 100;
+    left: 57%;
+    font-size: 25px;
+}
+
+div#nextAuthor {
+    position: absolute;
+    bottom: 30px;
+    right: 152px;
+    font-weight: 100;
+
+}
+
+
+.inIt {
+    height: 65vh;
+    width: 100vw;
+    transform: translate3d(-26.5%,-23%,0px);
+    background: linear-gradient(to right, rgba(0,0,0,.9), rgba(0,0,0,.9) , rgba(0,0,0,0.9));
+    color: rgba(0,0,0,0);
+}
+
+h2 {
+    color: white;
+    font-size: 2vw;
+    width: 54%;
+    line-height: 132%;
+    text-align: left;
+
+
+    margin-left: 4%;
+    margin-top: 16px;
+}
+
+.fadeIt {
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 1.3s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-out;
+    -webkit-animation-fill-mode: forwards;
+
+}
+
+img.threadImg {
+    width: 100%;
+    float: left;
+}
+
+@-webkit-keyframes fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.vote {
+    width: 17%;
+    height: 9vw;
+    overflow: hidden;
+    position: relative;
+    float: left;
+    background-color: rgba(0,0,0,.6);
+    border-radius: 25px;
+    margin-right: 45px;
+}
+
+.threadContainer.fadeIt {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 94%;
+    width: 100%;
+    top: 5%;
+}
+
+.imgContainer {
+    float: left;
+    height: 74%;
+    margin-left: 4%;
+    width: 44%;
+    overflow: scroll;
+    margin-right: 2%;
+    transition: all .4s;
+}
+
+.commentsContainer {
+    float: left;
+    height: 70%;
+    margin-left: 1%;
+    width: 44%;
+}
+
+.titleContainer {
+    float: left;
+    width: 100%;
+    margin-top: 46px;
+}
+
+h3.fadeIt {
+    float: left;
+    color: white;
+    font-size: 1.5vw;
+    margin-left: 4%;
+    margin-top: -61px;
+    font-weight: 200;
+}
+
+.threadMenu {
+    width: 100%;
+    height: 32%;
+    overflow: hidden;
+    margin-right: 25px;
+}
+
+.voteImg {
+    height: 40%;
+    width: auto;
+}
+
+.count {
+    color: white;
+    display: inline-block;
+    font-size: 1.7vw;
+    width: 100%;
+    transform: translateY(-90px);
+}
+
+.upNext {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    color: white;
+    width: 40%;
+    height: 30%;
+    transition: all .4s;
+}
+
+h5.upNextTitle {
+    font-size: 1.35vw;
+    font-weight: 200;
+    height: 14px;
+    position: absolute;
+    bottom: 6.5vh;
+    right: 4vw;
+}
+
+h4.upNextTitle {
+    font-size: 1.7vw;
+    width: 42%;
+    line-height: 100%;
+    text-align: left;
+    position: absolute;
+    right: 4vw;
+    bottom: 12%;
+}
+
+.topComContainer {
+    float: left;
+    width: 46%;
+    height: auto;
+    color: white;
+    margin-right: 4%;
+    max-height: 39%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.commentAuthor {
+    font-size: 1.7vw;
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+    line-height: 200%;
+}
+
+.commentTitle {
+    clear: both;
+    font-size: 1.6vw;
+    text-align: left;
+    line-height: 108%;
+    font-weight: 400;
+}
+
+.titleContainer h2.fadeIt {
+    position: absolute;
+    bottom: 6%;
+    transition: all .4s;
+}
+
+.titleContainer h3.fadeIt {
+    position: absolute;
+    bottom: -7%;
+    transition: all .4s;
+}
+
+.downVote.voteImg {
+    -webkit-transform: scale(1,-1);
+    -webkit-transform-origin: center;
+}
+
+.downVote .count {
+}
+
+.threadImg.fadeIt {
+    width: 100%;
+    height: auto;
+    color: white;
+    font-size: 1.85vw;
+    text-align: left;
+    line-height: 170%;
+}
+.threadContainer ul {
+    width: 98%;
+    margin-left: 0px;
+    padding-left: 2%;
+}
+
+.threadContainer li {
+    font-size: 1.7vw!important;
+    line-height: 150%;
+}
+
+a {
+    color: white;
+}
+
+figure {
+    margin: 0px;
+    padding: 0px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.nav {
+    display: none;
+}
+
+.social-links {
+    display: none;
+}
+
+.sidebar {
+    display: none;
+}
+
+.footer-recommended {
+    display: none;
+}
+
+footer {
+    display: none;
+}
+
+.comments-wrapper, .comments {
+    display: none;
+}
+
+
+.showComments .imgContainer {
+    width: 25%;
+    height: 48%;
+}
+
+.showComments .titleContainer {
+    width: 26%;
+    transform: translate);
+}
+
+.showComments h3 {
+    transform: translate3d(0vw,-18vh,0px);
+    clear: both;
+}
+
+.showComments .upNext {
+    opacity: 0;
+}
+
+.showComments h2#theTitle {
+    transform: translateY(-18vh);
+    width: 25%;
+}
+
+.showComments .topComContainer {
+    display: none;
+}
+
+.showComments .threadMenu {
+    position: absolute;
+    width: 57%;
+    transform: scale(.7);
+    left: -5vw;
+    bottom: -4vh;
+}
+
+.singleComment {
+    color: white;
+    font-size: 24px;
+    text-align: left;
+    line-height: 140%;
+    margin-left: 2%;
+}
+
+.showComments .commentsContainer {
+    width: 63%;
+    height: 98%;
+    overflow-y: scroll;
+}
+
+.commentContent {
+    margin-bottom: 7%;
+}
+
+.singleAuthor {
+    font-size: 19px;
 }
